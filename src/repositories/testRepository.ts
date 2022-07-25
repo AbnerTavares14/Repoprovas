@@ -59,7 +59,9 @@ async function getTestsByDiscipline() {
                             tests: {
                                 select: {
                                     name: true,
-                                    categories: true
+                                    categories: true,
+                                    pdfUrl: true,
+                                    id: true
                                 }
                             }
                         }
@@ -87,7 +89,8 @@ export async function getTestsByTeachers() {
                         select: {
                             name: true,
                             categories: true,
-                            pdfUrl: true
+                            pdfUrl: true,
+                            id: true
                         }
                     }
                 }

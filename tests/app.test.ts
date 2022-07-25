@@ -31,18 +31,35 @@ describe("POST signup and login", () => {
 
 });
 
-describe("POST test", () => {
+describe("POST and get tests", () => {
     it("return status code 201", async () => {
-        const data = { name: "Projeto Valex", pdfUrl: "https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting", categorie: "Projeto", discipline: "React", teacher: "Diego Pinho" };
+        const data = { name: "Projeto Valex", pdfUrl: "https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting", category: "Projeto", discipline: "React", teacher: "Diego Pinho" };
         const body = authFactory.generateAuthData();
         await supertest(app).post("/signup").send(body);
         const result = await supertest(app).post("/login").send(body);
         const token = result.text;
-        const resultFinal = await supertest(app).post("/test").send(data).set("Authorization", token);
+        const resultFinal = await supertest(app).post("/tests").send(data).set("Authorization", token);
         expect(resultFinal.status).toEqual(201);
     });
 
-})
+    it("return tests order by teachers", async () => {
+        const body = authFactory.generateAuthData();
+        await supertest(app).post("/signup").send(body);
+        const result = await supertest(app).post("/login").send(body);
+        const token = result.text;
+        const resultFinal = await supertest(app).get("/tests/teachers").set("Authorization", token);
+        expect(resultFinal.body).not.toBeNull();
+    });
+
+    it("return tests order by disciplines", async () => {
+        const body = authFactory.generateAuthData();
+        await supertest(app).post("/signup").send(body);
+        const result = await supertest(app).post("/login").send(body);
+        const token = result.text;
+        const resultFinal = await supertest(app).get("/tests/disciplines").set("Authorization", token);
+        expect(resultFinal.body).not.toBeNull();
+    });
+});
 
 afterAll(async () => {
     await prisma.$disconnect();

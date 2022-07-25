@@ -12,7 +12,6 @@ export type CreateSession = Omit<Sessions, "id">;
 
 async function create(email: string, password: string) {
     const user = await authRepository.getUser(email);
-    console.log(user);
     if (user) {
         throw handlerError.conflict();
     }

@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import testService from "../services/testService.js";
 
 export async function createTest(req: Request, res: Response) {
-    const { name, pdfUrl, categorie, discipline, teacher } = req.body;
-    await testService.createTest(name, pdfUrl, categorie, discipline, teacher);
+    const { name, pdfUrl, category, discipline, teacher } = req.body;
+    await testService.createTest(name, pdfUrl, category, discipline, teacher);
     res.sendStatus(201);
 }
 
